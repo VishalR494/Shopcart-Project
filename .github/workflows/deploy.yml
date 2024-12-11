@@ -1,0 +1,26 @@
+name: "Deploy to aws"
+
+
+# Trigger the workflow from the github ui
+on: workflow_dispatch
+
+jobs:
+    deploy:
+        runs-on: self-hosted
+        steps:
+            - name: "Setup nodejs"
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "21"
+
+            - name: "Checkout code"
+              uses: actions/checkout@v2
+
+            - name: "Install dependencies"
+              run: npm install
+
+            - name: "Run the tests"
+              run: npm test
+            
+            - name: "Deploy to aws"
+              run: pm2 restart server
